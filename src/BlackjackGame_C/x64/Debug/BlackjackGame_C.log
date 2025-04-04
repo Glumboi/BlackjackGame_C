@@ -1,9 +1,7 @@
-﻿  BlackjackGame_C.c
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackjackGame_C.c(91,19): warning C4013: 'strlen' undefined; assuming extern returning int
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackjackGame_C.c(311,33): warning C4018: '>': signed/unsigned mismatch
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackjackGame_C.c(344,37): warning C4018: '<=': signed/unsigned mismatch
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackjackGame_C.c(426,8): warning C4013: 'time' undefined; assuming extern returning int
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackjackGame_C.c(273,1): warning C4715: 'BlackJackGame_New': not all control paths return a value
+﻿  Card.c
+F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Card.c(73,19): warning C4013: 'strlen' undefined; assuming extern returning int
   BlackjackGame_C.vcxproj -> F:\visual studio\repos2\BlackjackGame_C\x64\Debug\BlackjackGame_C.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
+  F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Assets\Sprites\AllNumbered-Blank.png
+  1 File(s) copied
