@@ -13,6 +13,9 @@
 #define TEXMAP_HEARTS (Rectangle){ .width = CARD_DEFAULT_WIDTH,.height = CARD_DEFAULT_HEIGHT, .x = CARD_DEFAULT_WIDTH * 2 };
 #define TEXMAP_SPADES (Rectangle){ .width = CARD_DEFAULT_WIDTH,.height = CARD_DEFAULT_HEIGHT, .x = CARD_DEFAULT_WIDTH * 3 };
 
+#define CARD_COLOR_RED CLITERAL(Color){ 172, 50, 50, 255 } 
+#define CARD_COLOR_BLACK BLACK
+
 /*
 Diamonds: Represented by the symbol ♦.
 Clubs: Represented by the symbol ♣.
@@ -51,11 +54,11 @@ typedef struct _card
 {
 	CARD_TYPE type;
 	CARD_SYMBOL symbol;
+	Color cardColor;
 
 	uint8_t value;
 	Rectangle mappedCard;
 } Card;
 
 Card Card_GetRandom(uint8_t handTotal);
-void Card_Display(Card* card);
 void Card_Render(Card* card, Texture mappedTex, Vector2 pos, Color tint);

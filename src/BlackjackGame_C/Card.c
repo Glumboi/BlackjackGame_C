@@ -45,20 +45,23 @@ Card Card_GetRandom(uint8_t handTotal)
 	{
 	case CARD_SYMBOL_CLUBS:
 		result.mappedCard = TEXMAP_CLUBS;
+		result.cardColor = CARD_COLOR_BLACK;
 		break;
 	case CARD_SYMBOL_HEARTS:
 		result.mappedCard = TEXMAP_HEARTS;
+		result.cardColor = CARD_COLOR_RED;
 		break;
 	case CARD_SYMBOL_DIAMODS:
 		result.mappedCard = TEXMAP_DIAMONDS;
+		result.cardColor = CARD_COLOR_RED;
 		break;
 	case CARD_SYMBOL_SPADES:
 		result.mappedCard = TEXMAP_SPADES;
+		result.cardColor = CARD_COLOR_BLACK;
 		break;
 	default:
 		break;
 	}
-
 	return result;
 }
 
@@ -78,12 +81,17 @@ void Card_Render(Card* card, Texture mappedTex, Vector2 pos, Color tint)
 		text = "ACE";
 	else if (card->type == CARD_TYPE_NUMBERED)
 		text = TextFormat("%d", card->value);
+	else
+	{
+		// default cards
+		card->mappedCard = TEXMAP_DIAMONDS;
+		text = TextFormat("%CVAL: d", card->value);
+	}
 
-	textSize = MeasureTextEx(GetFontDefault(), text, 22, 4);
+	textSize = MeasureTextEx(GetFontDefault(), text, 32, 4);
 	textPos = (Vector2){
 		   pos.x + (card->mappedCard.width - textSize.x) / 2,
 		   pos.y + (card->mappedCard.height - textSize.y) / 2
 	};
-
-	DrawTextEx(GetFontDefault(), text, textPos, 22, 4, RED);
+	DrawTextEx(GetFontDefault(), text, textPos, 32, 4, card->cardColor);
 }

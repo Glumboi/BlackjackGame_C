@@ -18,6 +18,15 @@ typedef struct _blackJackGame
 	Player* player;
 	Dealer* dealer;
 
+	struct _algoState
+	{
+		Hand* nextDrawHand;
+		bool hasBetAlready;
+
+		bool dealerTurn;
+		bool stopPlayer;
+	} algoState;
+
 	uint8_t roundCount;
 
 	char assetDir[1024];
@@ -29,9 +38,9 @@ typedef struct _blackJackGame
 } BlackJackGame;
 
 BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer);
-void BlackJackGame_DisplayHands(BlackJackGame* game);
 void BlackJackGame_ClearHands(BlackJackGame* game);
 void BlackJackGame_RunGame(BlackJackGame* game);
 void BlackJackGame_Render(BlackJackGame* game);
 void BlackJackGame_Input(BlackJackGame* game);
-void BlackJackGame_BlackJackAlgorithm(BlackJackGame* game);
+void BlackJackGame_Algorithm(BlackJackGame* game);
+void BlackJackGame_State_Reset(BlackJackGame* game);

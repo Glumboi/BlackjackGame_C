@@ -12,7 +12,10 @@ typedef struct _hand
 
 	uint8_t cardsCount;
 	uint8_t handTotal;
+
+	char handName[64];
 } Hand;
 
 Hand Hand_New();
 void Hand_Draw(Hand* hand);
+void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow);

@@ -13,5 +13,4 @@ int main()
 
 	BlackJackGame game = BlackJackGame_New(&p, &d);
 	BlackJackGame_RunGame(&game);
-	system("pause");
 }
