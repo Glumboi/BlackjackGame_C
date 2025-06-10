@@ -1,9 +1,0 @@
-﻿  main.c
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\main.c(9,2): warning C4013: 'main' undefined; assuming extern returning int
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\main.c(14,8): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-  BlackjackGame_C.vcxproj -> F:\visual studio\repos2\BlackjackGame_C\x64\Debug\GlumJack.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
-  F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Assets\Icon.png
-  F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Assets\Sprites\AllNumbered-Blank.png
-  2 File(s) copied
