@@ -4,7 +4,9 @@ CARD_SYMBOL CardSymbol_Gen(bool numbered)
 {
 	if (numbered)
 		return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
-	return rand() % (CARD_SYMBOL_TOTAL_SYMBOL_COUNT - 1 - CARD_SYMBOL_JACK + 1) + CARD_SYMBOL_JACK;
+	return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
+
+	//return rand() % (CARD_SYMBOL_TOTAL_SYMBOL_COUNT - 1 - CARD_SYMBOL_JACK + 1) + CARD_SYMBOL_JACK;
 }
 
 Card Card_GetRandom(uint8_t handTotal)
@@ -22,12 +24,6 @@ Card Card_GetRandom(uint8_t handTotal)
 		result.value = rand() % (9 + 1 - 2) + 2;
 		break;
 	}
-	case CARD_TYPE_FACE:
-	{
-		result.symbol = CardSymbol_Gen(false);
-		result.value = 10;
-		break;
-	}
 	case CARD_TYPE_ACE:
 	{
 		result.symbol = CardSymbol_Gen(true);
@@ -36,8 +32,14 @@ Card Card_GetRandom(uint8_t handTotal)
 			result.value = 1;
 		break;
 	}
-	default:
+	case CARD_TYPE_JACK:
+	case CARD_TYPE_KING:
+	case CARD_TYPE_QUEEN:
+	{
+		result.symbol = CardSymbol_Gen(true);
+		result.value = 10;
 		break;
+	}
 	}
 
 	// Eval symbol
@@ -77,15 +79,24 @@ void Card_Render(Card* card, Texture mappedTex, Vector2 pos, Color tint)
 	Vector2 textPos = { 0 };
 
 	// Check if the card is an ACE
-	if (card->type == CARD_TYPE_ACE)
-		text = "ACE";
-	else if (card->type == CARD_TYPE_NUMBERED)
-		text = TextFormat("%d", card->value);
-	else
+
+	switch (card->type)
 	{
-		// default cards
-		card->mappedCard = TEXMAP_DIAMONDS;
-		text = TextFormat("%CVAL: d", card->value);
+	case CARD_TYPE_ACE:
+		text = "ACE";
+		break;
+	case CARD_TYPE_JACK:
+		text = "J";
+		break;
+	case CARD_TYPE_KING:
+		text = "K";
+		break;
+	case CARD_TYPE_QUEEN:
+		text = "Q";
+		break;
+	default:
+		text = TextFormat("%d", card->value);
+		break;
 	}
 
 	textSize = MeasureTextEx(GetFontDefault(), text, 32, 4);

@@ -3,8 +3,8 @@
 Player Player_New()
 {
 	Player result = { 0 };
-	result.hand = Hand_New();
-	result.playerBalance = DEFAULT_PLAYER_BALANCE;
+	result.hand = Hand_New("Player");
+	result.balance = DEFAULT_PLAYER_BALANCE;
 	return result;
 }
 
@@ -21,7 +21,7 @@ void Player_Win(Player* player)
 {
 	if (!player) return;
 	printf("Player has won!\n");
-	player->playerBalance += player->playerBet;
+	player->balance += player->bet;
 	player->gameEnd = 1;
 }
 
@@ -29,6 +29,6 @@ void Player_Lose(Player* player)
 {
 	if (!player) return;
 	printf("Player has lost!\n");
-	player->playerBalance -= player->playerBet;
+	player->balance -= player->bet;
 	player->gameEnd = 1;
 }

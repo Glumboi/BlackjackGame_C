@@ -1,8 +1,13 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-
 #include "BlackJackGame.h"
+
+int WinMain()
+{
+
+	main();
+}
 
 int main()
 {

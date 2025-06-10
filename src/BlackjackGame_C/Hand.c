@@ -1,8 +1,19 @@
 #include "Hand.h"
 
-Hand Hand_New()
+Hand Hand_New(char* name)
 {
-	return (Hand) { 0 };
+	Hand res = { 0 };
+	res.handName = name;
+	return res;
+}
+
+void Hand_Clear(Hand* hand)
+{
+	if (!hand) return;
+	free(hand->cards);
+	hand->cards = NULL;
+	hand->cardsCount = 0;
+	hand->handTotal = 0;
 }
 
 void Hand_Draw(Hand* hand)
@@ -65,3 +76,13 @@ void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow)
 
 }
 
+uint8_t Hand_GetTotal(Hand* hand)
+{
+	if (!hand) return;
+	hand->handTotal = 0;
+	for (size_t i = 0; i < hand->cardsCount; i++)
+	{
+		hand->handTotal += hand->cards[i].value;
+	}
+	return hand->handTotal;
+}

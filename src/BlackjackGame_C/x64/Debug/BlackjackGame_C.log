@@ -1,16 +1,9 @@
-﻿  BlackJackGame.c
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(73,73): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(73,88): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(79,22): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(79,46): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(86,22): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(86,46): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(91,22): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(91,46): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(95,56): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\BlackJackGame.c(136,39): warning C4018: '>=': signed/unsigned mismatch
-  BlackjackGame_C.vcxproj -> F:\visual studio\repos2\BlackjackGame_C\x64\Debug\BlackjackGame_C.exe
+﻿  main.c
+F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\main.c(9,2): warning C4013: 'main' undefined; assuming extern returning int
+F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\main.c(14,8): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  BlackjackGame_C.vcxproj -> F:\visual studio\repos2\BlackjackGame_C\x64\Debug\GlumJack.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
+  F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Assets\Icon.png
   F:\visual studio\repos2\BlackjackGame_C\BlackjackGame_C\Assets\Sprites\AllNumbered-Blank.png
-  1 File(s) copied
+  2 File(s) copied

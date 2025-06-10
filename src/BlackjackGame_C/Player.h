@@ -10,12 +10,12 @@
 typedef struct _player
 {
 	Hand hand;
-	size_t playerBet;
-	int64_t playerBalance;
+	size_t bet;
+	size_t balanceDelta;
+	int64_t balance;
 	uint8_t gameEnd;
+	bool won;
 } Player;
 
 Player Player_New();
 void Player_Draw(Player* player);
-void Player_Win(Player* player);
-void Player_Lose(Player* player);

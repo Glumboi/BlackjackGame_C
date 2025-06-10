@@ -13,6 +13,4 @@ typedef struct _dealer
 
 Dealer Dealer_New();
 void Dealer_Draw(Dealer* dealer);
-void Dealer_Win(Dealer* dealer);
-void Dealer_Lose(Dealer* dealer);
 
