@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HAND_H
+#define HAND_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,7 @@
 #include <stdbool.h>
 
 #include "Card.h"
+#include "HelperDefinitions.h"
 
 typedef struct _hand
 {
@@ -22,3 +24,5 @@ void Hand_Clear(Hand* hand);
 void Hand_Draw(Hand* hand);
 void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow);
 uint8_t Hand_GetTotal(Hand* hand);
+
+#endif

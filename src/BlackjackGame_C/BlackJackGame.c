@@ -1,24 +1,35 @@
 #include "BlackJackGame.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include <raygui.h>
+
 BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer)
 {
+	PTR_VALIDATE(player, abort(););
+	PTR_VALIDATE(dealer, abort(););
+
 	BlackJackGame result = { 0 };
 	if (!dealer || !player) return result;
 
 	result.player = player;
 	result.dealer = dealer;
+	result.shouldRenderMainMenu = true;
+	result.saveGame = true;
 
-	char wonActionTemp[2] = { '-', '+' };
-	memcpy(result.wonAction, wonActionTemp, sizeof(wonActionTemp));
+	result.wonAction[0] = '-';
+	result.wonAction[1] = '+';
 
-	result.algoState.drawDelay = 1000; // Set the delay to 1 second (1000 milliseconds)
+	result.algoState.drawDelay = 1000; // Set the dealer delay to 1 second
 	result.algoState.wonHand = NULL;
 
-	strcpy_s(result.assetDir, 1024, GetWorkingDirectory());
-	strcat_s(result.assetDir, 1024, ASSETS_DIRECTORY);
+	strcpy_s(result.assetDir, 260, GetApplicationDirectory());
+	strcat_s(result.assetDir, 260, ASSETS_DIRECTORY);
 
-	strcpy_s(result.spriteDir, 1024, result.assetDir);
-	strcat_s(result.spriteDir, 1024, SPRITES_DIRECTORY);
+	strcpy_s(result.spriteDir, 260, result.assetDir);
+	strcat_s(result.spriteDir, 260, SPRITES_DIRECTORY);
+
+	strcpy_s(result.saveFile, 260, result.assetDir);
+	strcat_s(result.saveFile, 260, SAVE_FILE);
 
 	if (DirectoryExists(result.assetDir))
 	{
@@ -26,288 +37,395 @@ BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer)
 
 		InitWindow(800, 600, "GlumJack");
 
-		char buff[260] = { 0 };
-		sprintf_s(buff, 260, "%s%s", result.assetDir, "Icon.png");
-		Image icon = LoadImage(buff);
+		char iconBuff[260] = { 0 };
+		sprintf_s(iconBuff, 260, "%s%s", result.assetDir, "Icon.png");
+
+		Image icon = LoadImage(iconBuff);
 		SetWindowIcon(icon);
 		UnloadImage(icon);
 
 		TraceLog(LOG_INFO, "Asset directory found!\nFound in: %s", result.assetDir);
 		TraceLog(LOG_INFO, "Assumed sprites directory: %s", result.spriteDir);
+		TraceLog(LOG_INFO, "Assumed save file: %s", result.saveFile);
 
 		FilePathList sprites = LoadDirectoryFiles(result.spriteDir);
 
-		result.textureBucket = malloc(sprites.count * sizeof(Texture2D));
-		result.textureCount = sprites.count;
+		// TODO: Remove malloc maybe, I only use a single map of textures, so it will always be one.
+		// Which would allow for a stack allocation instead
 
-		for (size_t i = 0; i < sprites.count; i++)
+		result.textureCount = sprites.count;
+		result.textureBucket = malloc(result.textureCount * sizeof(Texture2D));
+
+		FOR(0, sprites.count)
 		{
 			TraceLog(LOG_INFO, "Loading sprite: %s", sprites.paths[i]);
 			result.textureBucket[i] = LoadTexture(sprites.paths[i]);
 		}
-		}
+	}
 	else
 	{
 		TraceLog(LOG_ERROR, "Asset directory not found!\nExpected in: %s", result.assetDir);
 	}
 
+	BlackJackGame_InitGuiVars(&result);
 	return result;
-	}
+}
 
-	void BlackJackGame_ClearHands(BlackJackGame* game)
+void BlackJackGame_InitGuiVars(BlackJackGame* game)
+{
+	// gui init
+	game->guiVars.lowerBandBounds = LOWER_BAND_BOUNDS;
+	game->guiVars.drawButtonBounds =
+		(Rectangle)
 	{
-		if (!game) return;
-		Hand_Clear(&game->player->hand);
-		Hand_Clear(&game->dealer->hand);
-	}
+		.width = DEFAULT_GUI_BUTTON_WIDTH,
+		.height = DEFAULT_GUI_BUTTON_HEIGHT,
+		.x = game->guiVars.lowerBandBounds.x + 10,
+		.y = game->guiVars.lowerBandBounds.y + 10
+	};
 
-	void BlackJackGame_RunGame(BlackJackGame* game)
+	game->guiVars.holdButtonBounds =
+		(Rectangle)
 	{
-		if (!game) return;
-		game->algoState.dealerTurn = false;
-		while (!WindowShouldClose())
+		.width = DEFAULT_GUI_BUTTON_WIDTH,
+		.height = DEFAULT_GUI_BUTTON_HEIGHT,
+		.x = game->guiVars.drawButtonBounds.x + game->guiVars.drawButtonBounds.width + 10,
+		.y = game->guiVars.lowerBandBounds.y + 10
+	};
+
+	game->guiVars.doubleDownButtonBounds =
+		(Rectangle)
+	{
+		.width = DEFAULT_GUI_BUTTON_WIDTH + 15,
+		.height = DEFAULT_GUI_BUTTON_HEIGHT,
+		.x = game->guiVars.holdButtonBounds.x + game->guiVars.holdButtonBounds.width + 10,
+		.y = game->guiVars.lowerBandBounds.y + 10
+	};
+
+	game->guiVars.textStartBounds = (Rectangle){ .x = game->guiVars.doubleDownButtonBounds.x + game->guiVars.doubleDownButtonBounds.width + 10, .y = game->guiVars.lowerBandBounds.y + 10 };
+
+	game->guiVars.increaseButtonBounds =
+		(Rectangle)
+	{
+		.width = 15,
+		.height = 15,
+		.x = game->guiVars.textStartBounds.x + game->guiVars.betMeasure + 10,
+		.y = game->guiVars.textStartBounds.y + DEFAULT_GUI_FONT_SIZE
+	};
+
+	game->guiVars.decreaseButtonBounds =
+		(Rectangle)
+	{
+		.width = 15,
+		.height = 15,
+		.x = game->guiVars.increaseButtonBounds.x + 20,
+		.y = game->guiVars.textStartBounds.y + DEFAULT_GUI_FONT_SIZE
+	};
+
+	game->guiVars.balanceFormat = TextFormat("Balance: %lld$", game->player->playerStats.balance);
+	game->guiVars.balanceMeasure = MeasureText(game->guiVars.balanceFormat, DEFAULT_GUI_FONT_SIZE);
+
+	game->guiVars.betFormat = TextFormat("Current bet: %lld$", game->player->playerStats.bet);
+	game->guiVars.betMeasure = MeasureText(game->guiVars.betFormat, DEFAULT_GUI_FONT_SIZE);
+
+	game->guiVars.playerHandFormat = TextFormat("Your hand: %lld",
+		game->player->hand.handTotal);
+	game->guiVars.playerHandMeasure = MeasureText(game->guiVars.playerHandFormat, DEFAULT_GUI_FONT_SIZE);
+
+	game->guiVars.dealerHandFormat = TextFormat("Dealer hand: %lld",
+		game->dealer->hand.handTotal);
+	game->guiVars.dealerHandMeasure = MeasureText(game->guiVars.dealerHandFormat, DEFAULT_GUI_FONT_SIZE);
+
+}
+
+void BlackJackGame_ClearHands(BlackJackGame* game)
+{
+	Hand_Clear(&game->player->hand);
+	Hand_Clear(&game->dealer->hand);
+}
+
+void BlackJackGame_RunGame(BlackJackGame* game)
+{
+	PTR_VALIDATE(game, return;);
+	game->algoState.dealerTurn = false;
+	while (!WindowShouldClose() && !game->exitFromMenu)
+	{
+		if (game->shouldRenderMainMenu)
 		{
-			if (game->algoState.wonHand == NULL) // Block on end
-				BlackJackGame_Input(game);
-
+			BlackJackGame_Render_MainMenu(game);
+		}
+		else
+		{
+			BlackJackGame_Render_Game(game);
 			BlackJackGame_Algorithm(game);
-			BlackJackGame_Render(game);
 			BlackJackGame_State_Reset(game);
 		}
 	}
+}
 
-	size_t fcExpect = 0;
-	void BlackJackGame_RenderPart_Won(BlackJackGame* game)
+size_t fcExpect = 0;
+void BlackJackGame_RenderPart_Won(BlackJackGame* game)
+{
+	if (game->algoState.wonHand != NULL)
 	{
-		if (game->algoState.wonHand != NULL)
+		game->algoState.stopPlayerInput = true;
+
+		char* message = TextFormat("%s has won!\n%c %lld$",
+			game->algoState.wonHand,
+			game->wonAction[game->player->won],
+			game->player->playerStats.bet);
+
+		Color textColor = game->player->won ? GREEN : RED;
+		int fontSize = 30;
+		int textWidth = MeasureText(message, fontSize);
+		int textX = (GetScreenWidth() - textWidth) / 2;
+		int textY = (GetScreenHeight() - fontSize) / 2;
+
+		// Wait 5 seconds while showing the message
+		if (fcExpect > 0)
 		{
-			char* message = TextFormat("%s has won!\n%c %ld$",
-				game->algoState.wonHand,
-				game->wonAction[game->player->won],
-				game->player->bet);
-
-			Color textColor = game->player->won ? GREEN : RED;
-			int fontSize = 30;
-			int textWidth = MeasureText(message, fontSize);
-			int textX = (GetScreenWidth() - textWidth) / 2;
-			int textY = (GetScreenHeight() - fontSize) / 2;
-
-			// Wait 5 seconds while showing the message
-			if (fcExpect > 0)
+			if (game->fc < fcExpect)
 			{
-				if (game->fc < fcExpect)
-				{
-					DrawText(message, textX, textY, fontSize, textColor);
-					if (++game->fc == SIZE_MAX)
-						game->fc = 0;
-					return;
-				}
-				fcExpect = 0;
-			}
-			else
-			{
-				fcExpect = game->fc + 5 * 1.0f / (GetFrameTime());
+				DrawText(message, textX, textY, fontSize, textColor);
+				if (++game->fc == SIZE_MAX)
+					game->fc = 0;
 				return;
+
 			}
-
-			game->algoState.wonHand = NULL;
-			game->player->won = false;
-			BlackJackGame_Reset(game);
-		}
-	}
-
-	void BlackJackGame_RenderPart_Stats(BlackJackGame* game)
-	{
-		// Display balance and bet
-		DrawText(TextFormat("Balance: %lld$", game->player->balance), 10, 10, 24, LIME);
-		DrawText(TextFormat("Current bet: %lld$", game->player->bet), 10, 35, 24, BLACK);
-
-		Rectangle lowerBandBounds = (Rectangle){ .x = 0,.y = GetScreenHeight() - 50, .width = GetScreenWidth(),.height = 200 };
-		DrawRectangleRec(lowerBandBounds, BLACK);
-
-		if (!game->algoState.hasBetAlready && game->player->bet <= 0)
-		{
-			DrawText("To increase the bet, press '+' on your keyboard, to decrease press '-'!",
-				lowerBandBounds.x + 10, lowerBandBounds.y + 10, 20, WHITE);
-			return;
-		}
-		else if (!game->algoState.dealerTurn && Hand_GetTotal(&game->player->hand) == 0)
-		{
-			DrawText("Enter to draw your frist card!",
-				lowerBandBounds.x + 10, lowerBandBounds.y + 10, 20, WHITE);
-			return;
-		}
-
-
-		if (!game->algoState.dealerTurn)
-		{
-			DrawText("Enter to draw a card, space to hold or shift to double down!",
-				lowerBandBounds.x + 10, lowerBandBounds.y + 10, 20, WHITE);
+			fcExpect = 0;
 		}
 		else
-			DrawText("Please wait...",
-				lowerBandBounds.x + 10, lowerBandBounds.y + 10, 20, WHITE);
-
-
-		DrawText(TextFormat("Your hand: %lld",
-			game->player->hand.handTotal), 10, lowerBandBounds.y - 24, 24, BLACK);
-
-		DrawText(TextFormat("Dealer hand: %lld",
-			game->dealer->hand.handTotal), 10, lowerBandBounds.y - 48, 24, BLACK);
-
-		Hand_Render(&game->player->hand, game->textureBucket[0], false);
-		Hand_Render(&game->dealer->hand, game->textureBucket[0], true);
-	}
-
-	void BlackJackGame_Render(BlackJackGame* game)
-	{
-		RENDER_BEGIN;
-		BlackJackGame_RenderPart_Stats(game);
-		BlackJackGame_RenderPart_Won(game);
-		RENDER_END;
-
-		if (++game->fc == SIZE_MAX)
-			game->fc = 0;
-	}
-
-	void BlackJackGame_Input(BlackJackGame* game)
-	{
-		if (game->algoState.dealerTurn) return; // Only allow input during the player's turn
-		int key = GetKeyPressed();
-
-		if (!game->algoState.hasBetAlready)
 		{
-			if (key == KEY_KP_ADD && !game->algoState.dealerTurn)
-			{
-				if (game->player->balance >= 5)
-				{
-					game->player->bet += 5;
-					game->player->balance -= 5;
-					return;
-				}
-			}
-
-			if (key == KEY_MINUS && !game->algoState.dealerTurn)
-			{
-				if (game->player->bet >= 5)
-				{
-					game->player->balance += 5;
-					game->player->bet -= 5;
-					return;
-				}
-			}
-		}
-
-		if (key == KEY_ENTER && !game->algoState.stopPlayer)
-		{
-			game->algoState.nextDrawHand = &game->player->hand;
-			game->algoState.hasBetAlready = true;
+			fcExpect = game->fc + 5 * 1.0f / (GetFrameTime());
 			return;
 		}
 
-		if (key == KEY_LEFT_SHIFT || key == KEY_RIGHT_SHIFT && !game->algoState.stopPlayer)
-		{
-			if (game->player->balance * 2 >= game->player->bet * 2)
-			{
-				game->algoState.nextDrawHand = &game->player->hand;
-				game->player->bet *= 2;
-				game->player->balance -= game->player->bet;
-				game->algoState.stopPlayer = true;
-				return;
-			}
-		}
+		BlackJackGame_Reset(game);
+	}
+}
 
-		if (key == KEY_SPACE && !game->algoState.stopPlayer)
+void BlackJackGame_RenderPart_GUI(BlackJackGame* game)
+{
+	BlackJackGame_InitGuiVars(game);
+
+	DrawRectangleRec(game->guiVars.lowerBandBounds, BLACK);
+
+	if ((GuiButton(game->guiVars.drawButtonBounds, "Draw (A)") || CONTROLLER_PRESSED(CONTROLLER_A))
+		&& !game->algoState.stopPlayerInput
+		&& game->player->playerStats.bet > 0)
+	{
+		Player_Draw(game->player);
+		game->algoState.stopPlayerInput = true;
+		game->algoState.dealerTurn = true;
+		game->algoState.nextDrawHand = &game->dealer->hand;
+	}
+
+	if ((GuiButton(game->guiVars.holdButtonBounds, "Hold (X)") || CONTROLLER_PRESSED(CONTROLLER_X))
+		&& !game->algoState.stopPlayerInput && Player_AllowPlay(game->player))
+	{
+		game->algoState.stopPlayerInput = true;
+		game->algoState.dealerTurn = true;
+		game->algoState.nextDrawHand = &game->dealer->hand;
+		game->player->holding = true;
+	}
+
+	if ((GuiButton(game->guiVars.doubleDownButtonBounds, "Double down (Y)") || CONTROLLER_PRESSED(CONTROLLER_Y))
+		&& !game->algoState.stopPlayerInput && Player_AllowPlay(game->player))
+	{
+		if (game->player->playerStats.balance * 2 >= game->player->playerStats.bet * 2)
 		{
-			game->algoState.stopPlayer = true;
+			Player_Draw(game->player);
+			game->algoState.stopPlayerInput = true;
+			game->algoState.dealerTurn = true;
 			game->algoState.nextDrawHand = &game->dealer->hand;
-
-			return;
+			game->player->playerStats.bet *= 2;
+			game->player->playerStats.balance -= game->player->playerStats.bet;
+			game->player->holding = true;
+			game->player->doubledDown = true;
 		}
-
 	}
 
-	void BlackJackGame_Algorithm(BlackJackGame* game)
+	DrawText(game->guiVars.balanceFormat, game->guiVars.textStartBounds.x, game->guiVars.textStartBounds.y, DEFAULT_GUI_FONT_SIZE, LIME);
+	DrawText(game->guiVars.betFormat, game->guiVars.textStartBounds.x, game->guiVars.textStartBounds.y + DEFAULT_GUI_FONT_SIZE, DEFAULT_GUI_FONT_SIZE, WHITE);
+	DrawText(game->guiVars.playerHandFormat, game->guiVars.textStartBounds.x + game->guiVars.betMeasure + 60 /*offset relative to the buttons below*/, game->guiVars.textStartBounds.y, DEFAULT_GUI_FONT_SIZE, WHITE);
+	DrawText(game->guiVars.dealerHandFormat, game->guiVars.textStartBounds.x + game->guiVars.betMeasure + 60 /*offset relative to the buttons below*/, game->guiVars.textStartBounds.y + DEFAULT_GUI_FONT_SIZE, DEFAULT_GUI_FONT_SIZE, WHITE);
+
+	if ((GuiButton(game->guiVars.increaseButtonBounds, "+") || CONTROLLER_PRESSED(CONTROLLER_CROSS_UP))
+		&& !game->algoState.stopPlayerInput)
 	{
-		if (!game->algoState.hasBetAlready && game->player->bet <= 0)
-			return;
+		Player_IncreaseBet(game->player);
+		game->algoState.nextDrawHand = &game->player->hand;
+	}
 
-		int playerTotal = Hand_GetTotal(&game->player->hand);
-		int dealerTotal = Hand_GetTotal(&game->dealer->hand);
-		bool playerBust = playerTotal > 21;
-		bool dealerBust = dealerTotal > 21;
+	if ((GuiButton(game->guiVars.decreaseButtonBounds, "-") || CONTROLLER_PRESSED(CONTROLLER_CROSS_DOWN))
+		&& !game->algoState.stopPlayerInput)
+	{
+		Player_DecreaseBet(game->player);
+	}
+}
 
-		bool playerTurnOver = game->algoState.stopPlayer || playerBust;
+void BlackJackGame_RenderPart_Hands(BlackJackGame* game)
+{
+	Hand_Render(&game->player->hand, game->textureBucket[0], false);
+	Hand_Render(&game->dealer->hand, game->textureBucket[0], true);
+}
 
-		if (game->algoState.wonHand == NULL && (playerBust || dealerBust || (playerTurnOver && !game->algoState.dealerTurn && game->algoState.nextDrawHand == NULL)))
+void BlackJackGame_RenderPart_Stats(BlackJackGame* game)
+{
+	Rectangle lowerBandBounds = LOWER_BAND_BOUNDS;
+	DrawText(TextFormat("Your hand: %lld",
+		game->player->hand.handTotal), 10, lowerBandBounds.y - 24, 24, BLACK);
+	DrawText(TextFormat("Dealer hand: %lld",
+		game->dealer->hand.handTotal), 10, lowerBandBounds.y - 48, 24, BLACK);
+}
+
+void BlackJackGame_Render_Game(BlackJackGame* game)
+{
+	RENDER_BEGIN(GRAY);
+	BlackJackGame_RenderPart_GUI(game);
+	BlackJackGame_RenderPart_Hands(game);
+	BlackJackGame_RenderPart_Won(game);
+	RENDER_END;
+
+	if (++game->fc == SIZE_MAX)
+		game->fc = 0;
+}
+
+void BlackJackGame_Render_MainMenu(BlackJackGame* game)
+{
+	RENDER_BEGIN(GRAY);
+
+	DrawText("'GlumJack', made by Glummy", SCREEN_CENT.x - 150, SCREEN_CENT.y - 20, 22, BLACK);
+
+	Rectangle playBounds =
+	{
+		.x = SCREEN_CENT.x - DEFAULT_GUI_BUTTON_WIDTH ,
+		.y = SCREEN_CENT.y + 20,
+		.width = DEFAULT_GUI_BUTTON_WIDTH * 2,
+		.height = DEFAULT_GUI_BUTTON_HEIGHT * 2
+	};
+
+	if (GuiButton(playBounds, "PLAY! (A)") || CONTROLLER_PRESSED(CONTROLLER_A))
+	{
+		game->shouldRenderMainMenu = false;
+		BlackJackGame_LoadSave(game);
+	}
+
+	Rectangle exitBounds =
+	{
+		.x = SCREEN_CENT.x - DEFAULT_GUI_BUTTON_WIDTH ,
+		.y = SCREEN_CENT.y + playBounds.height + 20,
+		.width = DEFAULT_GUI_BUTTON_WIDTH * 2,
+		.height = DEFAULT_GUI_BUTTON_HEIGHT * 2
+	};
+
+	if (GuiButton(exitBounds, "EXIT (B)") || CONTROLLER_PRESSED(CONTROLLER_B))
+	{
+		game->exitFromMenu = true;
+	}
+
+	Rectangle saveGameCheckboxBounds = {
+
+		.x = SCREEN_CENT.x - DEFAULT_GUI_BUTTON_WIDTH ,
+		.y = SCREEN_CENT.y + exitBounds.height * 2 + 20,
+		.width = 25,
+		.height = 25
+	};
+
+	GuiCheckBox(saveGameCheckboxBounds, "Save game?", &game->saveGame);
+
+	RENDER_END;
+}
+
+void BlackJackGame_Algorithm(BlackJackGame* game)
+{
+	if (game->player->playerStats.bet <= 0)
+		return;
+
+	int playerTotal = Hand_GetTotal(&game->player->hand);
+	int dealerTotal = Hand_GetTotal(&game->dealer->hand);
+	bool playerBust = playerTotal > 21;
+	bool dealerBust = dealerTotal > 21;
+
+	bool playerTurnOver = game->algoState.stopPlayerInput || playerBust;
+
+	if (game->algoState.wonHand == NULL && (playerBust || dealerBust || (playerTurnOver && !game->algoState.dealerTurn && game->algoState.nextDrawHand == NULL)))
+	{
+
+		if (playerBust)
 		{
+			game->player->playerStats.balance -= game->player->playerStats.bet;
+			game->algoState.wonHand = game->dealer->hand.handName;
+			game->player->won = false;
+		}
+		else if (dealerBust || playerTotal > dealerTotal)
+		{
+			game->player->playerStats.balance += game->player->playerStats.bet;
+			game->algoState.wonHand = game->player->hand.handName;
+			game->player->won = true;
 
-			if (playerBust)
-			{
-				game->player->balance -= game->player->bet;
-				game->algoState.wonHand = game->dealer->hand.handName;
-				game->player->won = false;
-			}
-			else if (dealerBust || playerTotal > dealerTotal)
-			{
-				game->player->balance += game->player->bet;
-				game->algoState.wonHand = game->player->hand.handName;
-				game->player->won = true;
-
-			}
-			else if (playerTotal == dealerTotal)
-			{
-				game->player->balance += game->player->bet;
-			}
-
-
-			return;
+		}
+		else if (playerTotal == dealerTotal)
+		{
+			game->player->playerStats.balance += game->player->playerStats.bet;
 		}
 
-		bool playerBlackjack = playerTotal == 21;
-		bool dealerBlackjack = dealerTotal == 21;
 
-		if (game->algoState.wonHand == NULL && playerBlackjack || dealerBlackjack)
+		return;
+	}
+
+	bool playerBlackjack = playerTotal == 21;
+	bool dealerBlackjack = dealerTotal == 21;
+
+	if (game->algoState.wonHand == NULL && playerBlackjack || dealerBlackjack)
+	{
+		game->algoState.stopPlayerInput = true;
+		game->algoState.dealerTurn = false;
+
+		if (playerBlackjack && dealerBlackjack)
 		{
-			game->algoState.stopPlayer = true;
+			game->player->playerStats.balance += game->player->playerStats.bet;
+		}
+		else if (playerBlackjack)
+		{
+			game->player->playerStats.balance += game->player->playerStats.bet + (int)(game->player->playerStats.bet * 1.5);
+			game->player->won = true;
+			game->algoState.wonHand = game->player->hand.handName;
+		}
+		else if (dealerBlackjack)
+		{
+			game->player->won = false;
+			game->algoState.wonHand = game->dealer->hand.handName;
+		}
+
+		return;
+	}
+
+	if (!game->algoState.dealerTurn && game->algoState.nextDrawHand != NULL)
+	{
+		//Hand_Draw(game->algoState.nextDrawHand);
+		game->algoState.nextDrawHand = NULL;
+
+		if (playerTotal > 21)
+		{
+			game->algoState.stopPlayerInput = true;
+		}
+		else
+		{
+			game->algoState.dealerTurn = true;
+			game->algoState.lastDrawTime = clock();
+		}
+	}
+
+	if (game->algoState.dealerTurn && game->algoState.stopPlayerInput)
+	{
+		if (game->player->holding)
+		{
+			Dealer_Draw(game->dealer);
+			game->algoState.stopPlayerInput = false;
 			game->algoState.dealerTurn = false;
-
-			if (playerBlackjack && dealerBlackjack)
-			{
-				game->player->balance += game->player->bet;
-			}
-			else if (playerBlackjack)
-			{
-				game->player->balance += game->player->bet + (int)(game->player->bet * 1.5);
-				game->player->won = true;
-				game->algoState.wonHand = game->player->hand.handName;
-			}
-			else if (dealerBlackjack)
-			{
-				game->player->won = false;
-				game->algoState.wonHand = game->dealer->hand.handName;
-			}
-
-			return;
 		}
-
-		if (!game->algoState.dealerTurn && game->algoState.nextDrawHand != NULL)
-		{
-			Hand_Draw(game->algoState.nextDrawHand);
-			game->algoState.nextDrawHand = NULL;
-
-			if (playerTotal > 21)
-			{
-				game->algoState.stopPlayer = true;
-			}
-			else
-			{
-				game->algoState.dealerTurn = true;
-				game->algoState.lastDrawTime = clock();
-			}
-		}
-
-		if (game->algoState.dealerTurn)
+		else
 		{
 			clock_t currentTime = clock();
 			if ((currentTime - game->algoState.lastDrawTime) * 1000 / CLOCKS_PER_SEC >= game->algoState.drawDelay)
@@ -316,32 +434,73 @@ BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer)
 				{
 					Dealer_Draw(game->dealer);
 					game->algoState.lastDrawTime = currentTime;
+					return;
 				}
-				else
-				{
-					game->algoState.dealerTurn = false;
-				}
+				game->algoState.stopPlayerInput = false;
+
 			}
 		}
-	}
 
-	void BlackJackGame_Reset(BlackJackGame* game)
+	}
+}
+
+void BlackJackGame_Reset(BlackJackGame* game)
+{
+	PTR_VALIDATE(game, return;);
+
+	// Reset for next round
+
+	game->algoState.wonHand = NULL;
+	game->player->won = false;
+
+	BlackJackGame_ClearHands(game);
+
+	game->algoState.stopPlayerInput = false;
+	game->algoState.dealerTurn = false;
+	game->algoState.nextDrawHand = NULL;
+	game->algoState.lastDrawTime = clock();
+	game->player->holding = false;
+
+	if (game->player->doubledDown)
 	{
-		if (!game)return;
-		// Reset for next round
-		BlackJackGame_ClearHands(game);
-		game->algoState.hasBetAlready = false;
-		game->algoState.stopPlayer = false;
-		game->algoState.dealerTurn = false;
-		game->algoState.nextDrawHand = NULL;
-		game->algoState.lastDrawTime = clock();
+		game->player->doubledDown = false;
+		game->player->playerStats.bet /= 2;
 	}
+}
 
-	void BlackJackGame_State_Reset(BlackJackGame* game)
+void BlackJackGame_State_Reset(BlackJackGame* game)
+{
+	game->algoState.nextDrawHand = NULL;
+}
+
+void BlackJackGame_LoadSave(BlackJackGame* game)
+{
+	PTR_VALIDATE(game, return;);
+
+	if (!FileExists(game->saveFile) || !game->saveGame) return;
+
+	size_t sizeOut = 0;
+	uint8_t* saveFileBytes = LoadFileData(game->saveFile, &sizeOut);
+
+	if (game->player)
+		memcpy(&game->player->playerStats, saveFileBytes, sizeOut);
+	UnloadFileData(saveFileBytes);
+}
+
+void BlackJackGame_Save_Game(BlackJackGame* game)
+{
+	if (!game || !game->saveGame) return;
+	SaveFileData(game->saveFile, &game->player->playerStats, sizeof(struct _playerStats));
+}
+
+void BlackJackGame_Free(BlackJackGame* game)
+{
+	PTR_VALIDATE(game, return;);
+	BlackJackGame_ClearHands(game);
+	FOR(0, game->textureCount)
 	{
-		game->algoState.nextDrawHand = NULL;
+		UnloadTexture(game->textureBucket[i]);
 	}
-
-
-
-
+	PTR_FREE(game->textureBucket);
+	game->textureCount = 0;
+}

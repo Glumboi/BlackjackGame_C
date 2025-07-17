@@ -9,7 +9,6 @@ Dealer Dealer_New()
 
 void Dealer_Draw(Dealer* dealer)
 {
-	if (!dealer) return;
 	Hand_Draw(&dealer->hand);
 }
 

@@ -2,11 +2,11 @@
 
 CARD_SYMBOL CardSymbol_Gen(bool numbered)
 {
-	if (numbered)
-		return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
-	return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
+	/*if (numbered)
+		return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;*/
 
 	//return rand() % (CARD_SYMBOL_TOTAL_SYMBOL_COUNT - 1 - CARD_SYMBOL_JACK + 1) + CARD_SYMBOL_JACK;
+	return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
 }
 
 Card Card_GetRandom(uint8_t handTotal)
@@ -78,7 +78,7 @@ void Card_Render(Card* card, Texture mappedTex, Vector2 pos, Color tint)
 	Vector2 textSize = { 0 };
 	Vector2 textPos = { 0 };
 
-	// Check if the card is an ACE
+	// TODO: Don't do this on every render call 
 
 	switch (card->type)
 	{

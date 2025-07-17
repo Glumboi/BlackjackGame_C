@@ -3,32 +3,43 @@
 Player Player_New()
 {
 	Player result = { 0 };
+
+	struct _playerStats stats = { 0 };
+	result.playerStats = (struct _playerStats){ 0 };
+	result.playerStats.balance = DEFAULT_PLAYER_BALANCE;
+
 	result.hand = Hand_New("Player");
-	result.balance = DEFAULT_PLAYER_BALANCE;
 	return result;
 }
 
 void Player_Draw(Player* player)
 {
-	if (!player) return;
-	printf("\nYou drew: \n");
 	Hand_Draw(&player->hand);
-	printf("\n");
-	printf("================\n");
 }
 
-void Player_Win(Player* player)
+void Player_IncreaseBet(Player* player)
 {
-	if (!player) return;
-	printf("Player has won!\n");
-	player->balance += player->bet;
-	player->gameEnd = 1;
+	PTR_VALIDATE(player, return;);
+	if (player->playerStats.balance >= 5 && player)
+	{
+		player->playerStats.bet += 5;
+		player->playerStats.balance -= 5;
+	}
 }
 
-void Player_Lose(Player* player)
+void Player_DecreaseBet(Player* player)
 {
-	if (!player) return;
-	printf("Player has lost!\n");
-	player->balance -= player->bet;
-	player->gameEnd = 1;
+	PTR_VALIDATE(player, return;);
+	if (player->playerStats.bet >= 5 && player)
+	{
+		player->playerStats.balance += 5;
+		player->playerStats.bet -= 5;
+	}
+}
+
+bool Player_AllowPlay(Player* player)
+{
+	PTR_VALIDATE(player, return false;);
+
+	return Hand_GetTotal(&player->hand) > 0 && player->playerStats.bet > 0;
 }

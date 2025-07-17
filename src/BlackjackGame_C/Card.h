@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef CARD_H
+#define CARD_H
 
 #include <raylib.h>
 #include <stdio.h>
@@ -55,7 +56,11 @@ typedef struct _card
 
 	uint8_t value;
 	Rectangle mappedCard;
+
+	char* text;
 } Card;
 
 Card Card_GetRandom(uint8_t handTotal);
 void Card_Render(Card* card, Texture mappedTex, Vector2 pos, Color tint);
+
+#endif

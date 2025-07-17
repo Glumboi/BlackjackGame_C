@@ -2,6 +2,7 @@
 
 Hand Hand_New(char* name)
 {
+	PTR_VALIDATE(name, name = "NULL";);
 	Hand res = { 0 };
 	res.handName = name;
 	return res;
@@ -9,16 +10,15 @@ Hand Hand_New(char* name)
 
 void Hand_Clear(Hand* hand)
 {
-	if (!hand) return;
-	free(hand->cards);
-	hand->cards = NULL;
+	PTR_VALIDATE(hand, return;);
+	PTR_FREE(hand->cards);
 	hand->cardsCount = 0;
 	hand->handTotal = 0;
 }
 
 void Hand_Draw(Hand* hand)
 {
-	if (!hand) return;
+	PTR_VALIDATE(hand, return;);
 
 	Card* temp = realloc(hand->cards, ++hand->cardsCount * sizeof(Card));
 	if (!temp) return;
@@ -36,51 +36,44 @@ void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow)
 
 	if (!topRow)
 	{
-		for (size_t i = 0; i < hand->cardsCount; i++)
+		FOR(0, hand->cardsCount)
 		{
-			// Calculate the position for each card to be drawn next to each other horizontally
 			cardPos = (Vector2){
-			   .x = 10 + i * (CARD_DEFAULT_WIDTH + 10),  // cardWidth is the width of the card, spacing is the space between cards
+			   .x = 10 + i * (CARD_DEFAULT_WIDTH + 10),
 			   .y = GetScreenHeight() / 2
 			};
 
-			// Render each card next to each other
 			Card_Render(
-				&hand->cards[i], // Corrected the card index from 0 to i to get the proper card
+				&hand->cards[i],
 				cardMap,
 				cardPos,
 				WHITE
 			);
 		}
+		return;
 	}
-	else
+
+	FOR(0, hand->cardsCount)
 	{
-		for (size_t i = 0; i < hand->cardsCount; i++)
-		{
-			// Calculate the position for each card to be drawn starting from the top-right corner
-			cardPos = (Vector2){
-				.x = GetScreenWidth() - 10 - CARD_DEFAULT_WIDTH - i * (CARD_DEFAULT_WIDTH + 10), // Start from the right and move left
-				.y = 10 // Set Y to the top of the screen
-			};
+		cardPos = (Vector2){
+			.x = GetScreenWidth() - 10 - CARD_DEFAULT_WIDTH - i * (CARD_DEFAULT_WIDTH + 10),
+			.y = 10
+		};
 
-			// Render each card starting from the top-right corner
-			Card_Render(
-				&hand->cards[i], // Corrected the card index from 0 to i to get the proper card
-				cardMap,
-				cardPos,
-				WHITE
-			);
-		}
+		Card_Render(
+			&hand->cards[i],
+			cardMap,
+			cardPos,
+			WHITE
+		);
 	}
-
-
 }
 
 uint8_t Hand_GetTotal(Hand* hand)
 {
-	if (!hand) return;
+	PTR_VALIDATE(hand, return;);
 	hand->handTotal = 0;
-	for (size_t i = 0; i < hand->cardsCount; i++)
+	FOR(0, hand->cardsCount)
 	{
 		hand->handTotal += hand->cards[i].value;
 	}

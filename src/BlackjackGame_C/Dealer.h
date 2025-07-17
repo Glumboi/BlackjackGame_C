@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEALER_H
+#define DEALER_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,3 +15,4 @@ typedef struct _dealer
 Dealer Dealer_New();
 void Dealer_Draw(Dealer* dealer);
 
+#endif

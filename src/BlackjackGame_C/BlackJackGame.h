@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Player.h"
-#include "Dealer.h"
+#ifndef BLACKJACKGAME_H
+#define BLACKJACKGAME_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,14 +11,20 @@
 
 #include <raylib.h>
 
+#include "Player.h"
+#include "Dealer.h"
+#include "HelperDefinitions.h"
+#include "Controller.h"
+
 #define ASSETS_DIRECTORY "\\Assets\\"
 #define SPRITES_DIRECTORY "Sprites"
+#define SAVE_FILE "saveFile.sav"
 
-#define RENDER_BEGIN BeginDrawing();\
-					 ClearBackground(GRAY);
+#define DEFAULT_GUI_FONT_SIZE 17
+#define DEFAULT_GUI_BUTTON_WIDTH 80
+#define DEFAULT_GUI_BUTTON_HEIGHT 30
 
-#define RENDER_END	EndDrawing();
-#define COLOR_TRANSPARENT (Color){.a = 0, .b = 255, .g = 255, .r = 255}
+#define LOWER_BAND_BOUNDS (Rectangle){ .x = 0,.y = GetScreenHeight() - 50, .width = GetScreenWidth(),.height = 200 }
 
 typedef struct _blackJackGame
 {
@@ -28,39 +34,82 @@ typedef struct _blackJackGame
 	struct _algoState
 	{
 		Hand* nextDrawHand;
-		bool hasBetAlready;
 
 		bool dealerTurn;
-		bool stopPlayer;
+		bool stopPlayerInput;
 		bool gameEnd;
 
 		char* wonHand;
 
-		clock_t lastDrawTime; // Track the last time a card was drawn
-		int drawDelay;        // Delay in milliseconds between draws
+		clock_t lastDrawTime; 
+		int drawDelay;        // Dealer delay in milliseconds between draws
 	} algoState;
+
+	struct _guiVars
+	{
+		Rectangle lowerBandBounds;
+
+		Rectangle drawButtonBounds;
+		Rectangle holdButtonBounds;
+		Rectangle doubleDownButtonBounds;
+		Rectangle textStartBounds;
+		Rectangle increaseButtonBounds;
+		Rectangle decreaseButtonBounds;
+
+		char* balanceFormat;
+		int balanceMeasure;
+
+		char* betFormat;
+		int betMeasure;
+
+		char* playerHandFormat;
+		int playerHandMeasure;
+
+		char* dealerHandFormat;
+		int dealerHandMeasure;
+	} guiVars;
 
 	uint8_t roundCount;
 
-	char assetDir[1024];
-	char spriteDir[1024];
+	char assetDir[260];
+	char spriteDir[260];
+	char saveFile[260];
 
 	char wonAction[2]; // {'-', '+'}
 
-	Texture2D* textureBucket;
+	Texture2D* textureBucket; // 0 = card map
 	size_t textureCount;
 	size_t fc; // frame counter
 
+	bool shouldRenderMainMenu;
+	bool exitFromMenu;
+
+	bool saveGame;
 } BlackJackGame;
 
 BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer);
 
+void BlackJackGame_InitGuiVars(BlackJackGame* game);
+
 void BlackJackGame_ClearHands(BlackJackGame* game);
 void BlackJackGame_RunGame(BlackJackGame* game);
-void BlackJackGame_Render(BlackJackGame* game);
+
+void BlackJackGame_Render_Game(BlackJackGame* game);
+
 void BlackJackGame_RenderPart_Won(BlackJackGame* game);
+void BlackJackGame_RenderPart_GUI(BlackJackGame* game);
+void BlackJackGame_RenderPart_Hands(BlackJackGame* game);
 void BlackJackGame_RenderPart_Stats(BlackJackGame* game);
-void BlackJackGame_Input(BlackJackGame* game);
+
+void BlackJackGame_Render_MainMenu(BlackJackGame* game);
+
 void BlackJackGame_Algorithm(BlackJackGame* game);
 void BlackJackGame_Reset(BlackJackGame* game);
 void BlackJackGame_State_Reset(BlackJackGame* game);
+
+void BlackJackGame_LoadSave(BlackJackGame* game);
+void BlackJackGame_Save_Game(BlackJackGame* game);
+
+void BlackJackGame_Free(BlackJackGame* game);
+
+#endif
