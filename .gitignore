@@ -45,6 +45,9 @@
 # release folders
 x64
 
+# temp folders
+.vs
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
