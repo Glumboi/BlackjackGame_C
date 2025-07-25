@@ -105,6 +105,7 @@ void BlackJackGame_Render_MainMenu(BlackJackGame* game);
 
 void BlackJackGame_Algorithm(BlackJackGame* game);
 void BlackJackGame_Reset(BlackJackGame* game);
+void BlackJackGame_State_Reset(BlackJackGame* game);
 
 void BlackJackGame_LoadSave(BlackJackGame* game);
 void BlackJackGame_Save_Game(BlackJackGame* game);
