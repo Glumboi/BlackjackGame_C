@@ -3,36 +3,39 @@
   "WorkspaceRootPath": "F:\\Github\\BlackjackGame_C\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\BlackJackGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\BlackJackGame.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Hand.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\HelperDefinitions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\HelperDefinitions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Hand.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\HelperDefinitions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\HelperDefinitions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\BlackJackGame.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Card.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\BlackJackGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|solutionrelative:BlackjackGame_C\\Hand.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E52BF57-E85B-417A-9186-CC4071863B66}|BlackjackGame_C\\BlackjackGame_C.vcxproj|F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Dealer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -62,7 +65,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,32 +73,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
+              "Title": "stdio.h",
+              "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "ToolTip": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "ViewState": "AgIAAHkCAAAAAAAAAAAmwIUCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-07-23T12:06:02.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "main.c",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\main.c",
               "RelativeDocumentMoniker": "BlackjackGame_C\\main.c",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\main.c",
               "RelativeToolTip": "BlackjackGame_C\\main.c",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-06-25T05:29:06.492Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-25T05:29:06.492Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "HelperDefinitions.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\HelperDefinitions.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\HelperDefinitions.h",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\HelperDefinitions.h",
               "RelativeToolTip": "BlackjackGame_C\\HelperDefinitions.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAiwAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T11:37:53.591Z"
+              "WhenOpened": "2025-06-29T11:37:53.591Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Dealer.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Dealer.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Dealer.h",
@@ -107,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Controller.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Controller.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Controller.h",
@@ -119,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Hand.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Hand.h",
@@ -131,13 +144,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Card.c",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.c",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Card.c",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.c",
               "RelativeToolTip": "BlackjackGame_C\\Card.c",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAEcAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-06-27T11:28:08.227Z",
               "EditorCaption": ""
@@ -150,14 +163,14 @@
               "RelativeDocumentMoniker": "BlackjackGame_C\\BlackJackGame.c",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.c",
               "RelativeToolTip": "BlackjackGame_C\\BlackJackGame.c",
-              "ViewState": "AgIAAMUBAAAAAAAAAAAAAGYBAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAPcBAAAAAAAAAAAiwAMCAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-06-26T14:14:27.86Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Dealer.c",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Dealer.c",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Dealer.c",
@@ -169,32 +182,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Hand.c",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.c",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Hand.c",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Hand.c",
               "RelativeToolTip": "BlackjackGame_C\\Hand.c",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwEkAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAiwEsAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-06-25T10:20:22.977Z"
+              "WhenOpened": "2025-06-25T10:20:22.977Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Card.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Card.h",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Card.h",
               "RelativeToolTip": "BlackjackGame_C\\Card.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADEAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-25T05:31:39.455Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Player.c",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Player.c",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Player.c",
@@ -206,7 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Player.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\Player.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\Player.h",
@@ -218,16 +232,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "BlackJackGame.h",
               "DocumentMoniker": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.h",
               "RelativeDocumentMoniker": "BlackjackGame_C\\BlackJackGame.h",
               "ToolTip": "F:\\Github\\BlackjackGame_C\\src\\BlackjackGame_C\\BlackJackGame.h",
               "RelativeToolTip": "BlackjackGame_C\\BlackJackGame.h",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEQAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T17:45:09.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-24T17:45:09.722Z"
             }
           ]
         }
