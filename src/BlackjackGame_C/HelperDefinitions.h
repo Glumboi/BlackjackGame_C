@@ -10,8 +10,6 @@
 
 #define SCREEN_CENT (Vector2) {.x = GetScreenWidth() / 2, .y = GetScreenHeight() / 2}
 
-#define FOR(start, end) for (size_t i = start; i < end; i++)
-
 #define PTR_FREE(ptr) free(ptr); ptr = NULL
 
 #ifdef  _DEBUG

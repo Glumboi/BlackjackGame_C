@@ -3,6 +3,22 @@
 #define RAYGUI_IMPLEMENTATION
 #include <raygui.h>
 
+#ifdef _DEBUG
+void* MallocLog(size_t sz)
+{
+	TraceLog(LOG_INFO, TextFormat("[%s call]: %lld", __FUNCTION__, sz)); 
+	return malloc(sz);
+}
+#define malloc(sz) MallocLog(sz)
+
+void FreeLog(void* mem)
+{
+	TraceLog(LOG_INFO, TextFormat("[%s call]", __FUNCTION__));
+	free(mem);
+}
+#define free(mem) FreeLog(mem)
+#endif
+
 BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer)
 {
 	PTR_VALIDATE(player, abort(););
@@ -56,7 +72,7 @@ BlackJackGame BlackJackGame_New(Player* player, Dealer* dealer)
 		result.textureCount = sprites.count;
 		result.textureBucket = malloc(result.textureCount * sizeof(Texture2D));
 
-		FOR(0, sprites.count)
+		for (size_t i = 0; i < sprites.count; i++)
 		{
 			TraceLog(LOG_INFO, "Loading sprite: %s", sprites.paths[i]);
 			result.textureBucket[i] = LoadTexture(sprites.paths[i]);
@@ -497,7 +513,7 @@ void BlackJackGame_Free(BlackJackGame* game)
 {
 	PTR_VALIDATE(game, return;);
 	BlackJackGame_ClearHands(game);
-	FOR(0, game->textureCount)
+	for (size_t i = 0; i < game->textureCount; i++)
 	{
 		UnloadTexture(game->textureBucket[i]);
 	}

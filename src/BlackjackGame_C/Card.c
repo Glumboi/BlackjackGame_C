@@ -5,11 +5,16 @@ CARD_SYMBOL CardSymbol_Gen(bool numbered)
 	return  rand() % (CARD_SYMBOL_HEARTS - 1 - CARD_SYMBOL_DIAMODS + 1) + CARD_SYMBOL_DIAMODS;
 }
 
+CARD_TYPE CardType_Gen()
+{
+	return rand() % (CARD_SYMBOL_TOTAL_TYPE_COUNT - 1 - CARD_TYPE_NUMBERED + 1) + CARD_TYPE_NUMBERED;
+}
+
 Card Card_GetRandom(uint8_t handTotal)
 {
 	Card result = { 0 };
 
-	result.type = rand() % (CARD_SYMBOL_TOTAL_TYPE_COUNT - 1 - CARD_TYPE_NUMBERED + 1) + CARD_TYPE_NUMBERED;
+	result.type = CardType_Gen();
 
 	switch (result.type)
 	{

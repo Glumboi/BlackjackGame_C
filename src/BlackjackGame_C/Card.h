@@ -47,6 +47,7 @@ typedef enum _CARD_SYMBOL
 } CARD_SYMBOL;
 
 CARD_SYMBOL CardSymbol_Gen(bool numbered);
+CARD_TYPE CardType_Gen();
 
 typedef struct _card
 {

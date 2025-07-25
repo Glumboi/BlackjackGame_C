@@ -36,7 +36,7 @@ void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow)
 
 	if (!topRow)
 	{
-		FOR(0, hand->cardsCount)
+		for (size_t i = 0; i < hand->cardsCount; i++)
 		{
 			cardPos = (Vector2){
 			   .x = 10 + i * (CARD_DEFAULT_WIDTH + 10),
@@ -53,7 +53,7 @@ void Hand_Render(Hand* hand, Texture2D cardMap, bool topRow)
 		return;
 	}
 
-	FOR(0, hand->cardsCount)
+	for (size_t i = 0; i < hand->cardsCount; i++)
 	{
 		cardPos = (Vector2){
 			.x = GetScreenWidth() - 10 - CARD_DEFAULT_WIDTH - i * (CARD_DEFAULT_WIDTH + 10),
@@ -73,7 +73,7 @@ uint8_t Hand_GetTotal(Hand* hand)
 {
 	PTR_VALIDATE(hand, return;);
 	hand->handTotal = 0;
-	FOR(0, hand->cardsCount)
+	for (size_t i = 0; i < hand->cardsCount; i++)
 	{
 		hand->handTotal += hand->cards[i].value;
 	}
